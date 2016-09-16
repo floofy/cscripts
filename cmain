@@ -1,0 +1,43 @@
+#/bin/bash 
+
+filename="main_template"
+file_type=".c"
+file=$filename$file_type
+file_dir="./$file"
+
+arg1="$1"
+
+if [ "$arg1" == "-rm" ];   # delete .c file
+then
+    rm "$filename"
+    exit 0
+elif [ "$arg1" == "-rr" ];   # delete .c and object file
+then
+    rm "$file_dir"
+    rm "$filename"
+    exit 0
+elif [ "$arg1" == "-run" ];
+then
+    ./"$filename"
+    exit 0
+elif [ "$arg1" == "-c" ];
+then
+    make "$filename"
+    exit 0
+elif [ "$arg1" == "-crun" ];
+then
+    make "$filename"
+    ./"$filename"
+    exit 0
+fi
+
+
+if [ ! -f "$file_dir" ];
+then
+    touch "$file_dir"
+    template="#include <stdlib.h>\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n\n\n\treturn 0;\n}\n"
+    echo $template >> "$file_dir"
+else
+    echo "$file ready exists!"
+fi
+
